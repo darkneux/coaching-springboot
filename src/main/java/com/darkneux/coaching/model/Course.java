@@ -1,4 +1,4 @@
-package com.darkneux.coaching.tempEntity;
+package com.darkneux.coaching.model;
 
 public class Course {
     private Long id;

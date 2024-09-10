@@ -1,7 +1,8 @@
 package com.darkneux.coaching.controller;
 
+import com.darkneux.coaching.dto.StudentDTO;
 import com.darkneux.coaching.service.StudentService;
-import com.darkneux.coaching.tempEntity.Student;
+import com.darkneux.coaching.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,21 +15,21 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping("/students")
-    public Student addStudent(@RequestBody Student student){
+    public StudentDTO addStudent(@RequestBody StudentDTO student){
         System.out.println(student);
         return studentService.addStudent(student);
 
     }
 
     @GetMapping("/students")
-    public List<Student> getStudents(){
+    public List<StudentDTO> getStudents(){
         System.out.println("hi");
         System.out.println("hello");
         return studentService.getStudents();
     }
 
     @GetMapping("/students/{id}")
-    public Student student(@PathVariable("id") Long id){
+    public StudentDTO student(@PathVariable("id") Long id){
         return studentService.getStudent(id);
     }
 

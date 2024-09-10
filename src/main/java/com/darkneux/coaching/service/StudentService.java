@@ -1,53 +1,42 @@
 package com.darkneux.coaching.service;
 
-import com.darkneux.coaching.tempEntity.Student;
+import com.darkneux.coaching.dto.StudentDTO;
+import com.darkneux.coaching.mapper.StudentMapper;
+import com.darkneux.coaching.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
 
     @Autowired
-    List<Student> students;
+    private StudentMapper studentMapper;
 
-    public Student addStudent(Student student){
+    @Autowired
+    private List<Student> students; // Consider using a proper repository
+
+    public StudentDTO addStudent(StudentDTO studentDTO) {
+        Student student = studentMapper.toEntity(studentDTO);
         students.add(student);
-        return student;
+        return studentMapper.toDto(student);
     }
 
-    public List<Student> getStudents(){
-        return students;
+    public List<StudentDTO> getStudents() {
+        return students.stream().map(studentMapper::toDto).collect(Collectors.toList());
     }
 
-    public Student getStudent(Long id){
-        Student student = null;
-        for(Student st : students){
-            if(st.getId() == id ){
-                student = st;
-                break;
-            }
-        }
-        
-        return student;
+    public StudentDTO getStudent(Long id) {
+        return students.stream()
+                .filter(student -> student.getId().equals(id))
+                .map(studentMapper::toDto)
+                .findFirst()
+                .orElse(null);
     }
 
-
-    public boolean deleteStudent(Long id){
-        Iterator<Student> iterator = students.iterator();
-
-        while(iterator.hasNext()){
-            Student student = iterator.next();
-            if(Objects.equals(student.getId(), id)){
-                iterator.remove();
-                return true;
-            }
-        }
-      return false;
+    public boolean deleteStudent(Long id) {
+        return students.removeIf(student -> student.getId().equals(id));
     }
-
 }

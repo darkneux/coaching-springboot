@@ -1,6 +1,7 @@
 package com.darkneux.coaching.config;
 
-import com.darkneux.coaching.tempEntity.Student;
+import com.darkneux.coaching.model.Student;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,4 +14,10 @@ public class StudentConfiguration {
     public List<Student> studentList(){
         return new ArrayList<Student>();
     }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
+

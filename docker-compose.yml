@@ -1,16 +1,37 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coaching_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - coaching-network
+
   coaching-app:
     build: .
     ports:
       - "8000:8000"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/coaching_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - db
     networks:
-        - chat-network
+      - coaching-network
 
 networks:
-  chat-network:
+  coaching-network:
     driver: bridge
+
+volumes:
+  postgres-data:
