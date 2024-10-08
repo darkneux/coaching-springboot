@@ -1,28 +1,24 @@
 package com.darkneux.coaching.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import jakarta.persistence.*;
 import java.util.List;
 
-
-@Getter
-@Setter
+@Entity
+@Data
 @NoArgsConstructor
 public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String fname;
     private String sname;
-    private List<Course> courses;
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", fname='" + fname + '\'' +
-                ", sname='" + sname + '\'' +
-                ", courses=" + courses +
-                '}';
-    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private List<Course> courses;
 }

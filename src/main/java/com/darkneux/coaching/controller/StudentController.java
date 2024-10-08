@@ -16,15 +16,12 @@ public class StudentController {
 
     @PostMapping("/students")
     public StudentDTO addStudent(@RequestBody StudentDTO student){
-        System.out.println(student);
         return studentService.addStudent(student);
 
     }
 
     @GetMapping("/students")
     public List<StudentDTO> getStudents(){
-        System.out.println("hi");
-        System.out.println("hello");
         return studentService.getStudents();
     }
 
